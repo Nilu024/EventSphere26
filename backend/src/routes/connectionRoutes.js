@@ -1,0 +1,22 @@
+import { Router } from 'express';
+import * as c from '../controllers/connectionController.js';
+import { authenticate } from '../middlewares/authMiddleware.js';
+import { authorize } from '../middlewares/roleMiddleware.js';
+import { validate } from '../middlewares/validateMiddleware.js';
+import { ROLES } from '../constants/roles.js';
+import { idParam, userIdParam } from '../validators/commonValidator.js';
+import { requestsQuery, listConnectionsQuery } from '../validators/networkingValidator.js';
+
+const router = Router();
+router.use(authenticate, authorize(ROLES.PARTICIPANT));
+router.get('/', validate({ query: listConnectionsQuery }), c.list);
+router.get('/requests', validate({ query: requestsQuery }), c.requests);
+router.get('/blocked', c.listBlocked);
+router.post('/request/:userId', validate({ params: userIdParam }), c.sendRequest);
+router.post('/block/:userId', validate({ params: userIdParam }), c.block);
+router.delete('/block/:userId', validate({ params: userIdParam }), c.unblock);
+router.patch('/:id/accept', validate({ params: idParam }), c.accept);
+router.patch('/:id/reject', validate({ params: idParam }), c.reject);
+router.patch('/:id/cancel', validate({ params: idParam }), c.cancel);
+router.delete('/:id', validate({ params: idParam }), c.remove);
+export default router;

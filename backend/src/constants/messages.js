@@ -1,0 +1,18 @@
+export const MESSAGES = Object.freeze({
+  AUTH_REQUIRED: 'Authentication required',
+  INVALID_CREDENTIALS: 'Invalid email or password',
+  ACCOUNT_DEACTIVATED: 'Account is deactivated',
+  EMAIL_EXISTS: 'An account with this email already exists',
+  FORBIDDEN: 'You do not have permission to perform this action',
+  NOT_OWNER: 'You do not have permission to manage this resource',
+  VALIDATION_FAILED: 'Validation failed',
+  EVENT_NOT_FOUND: 'Event not found',
+  SESSION_NOT_FOUND: 'Session not found',
+  SPEAKER_NOT_FOUND: 'Speaker not found',
+  USER_NOT_FOUND: 'User not found',
+  QUESTION_NOT_FOUND: 'Question not found',
+  CONNECTION_NOT_FOUND: 'Connection not found',
+  NOT_CONNECTED: 'You can only message users with an accepted connection',
+  NOT_REGISTERED: 'You must be registered for this event',
+  INTERNAL: 'Internal server error',
+});

@@ -1,0 +1,20 @@
+import { Router } from 'express';
+import * as c from '../controllers/userController.js';
+import { authenticate } from '../middlewares/authMiddleware.js';
+import { authorize } from '../middlewares/roleMiddleware.js';
+import { validate } from '../middlewares/validateMiddleware.js';
+import { uploadSingleImage } from '../middlewares/uploadMiddleware.js';
+import { ROLES } from '../constants/roles.js';
+import { idParam } from '../validators/commonValidator.js';
+import { updateProfileSchema, listUsersQuery, updateStatusSchema, updateRoleSchema } from '../validators/userValidator.js';
+
+const router = Router();
+router.use(authenticate);
+router.get('/me', c.getMe);
+router.patch('/me', validate({ body: updateProfileSchema }), c.updateMe);
+router.post('/me/avatar', uploadSingleImage, c.uploadAvatar);
+router.get('/', authorize(ROLES.ADMIN), validate({ query: listUsersQuery }), c.listUsers);
+router.get('/:id', validate({ params: idParam }), c.getUser);
+router.patch('/:id/status', authorize(ROLES.ADMIN), validate({ params: idParam, body: updateStatusSchema }), c.updateStatus);
+router.patch('/:id/role', authorize(ROLES.ADMIN), validate({ params: idParam, body: updateRoleSchema }), c.updateRole);
+export default router;
